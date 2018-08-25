@@ -1,7 +1,9 @@
 import cli
+import readfiles
 
 if __name__ == '__main__':
     try:
-        cli.parseArgs()
+        readfiles.openTesting()
+        readfiles.openTraining()
     except KeyboardInterrupt:
-        print '\n\nInterrupted execution\n'
+        print('\n\nInterrupted execution\n')
