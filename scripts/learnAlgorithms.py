@@ -35,3 +35,20 @@ def knnLearn():
 
     # evaluate accuracy
     print(accuracy_score(Y_test, pred))
+
+def LDA():
+    train = rf.openTraining()
+    X_train = np.array(train.images)
+    Y_train = np.array(train.labels)
+
+    test = rf.openTesting()
+    X_test = np.array(test.images)
+    Y_test = np.array(test.labels)
+
+    clf = LinearDiscriminantAnalysis()
+
+    clf.fit(X_train, Y_train)
+    pred = clf.predict(X_test)
+
+
+    print(accuracy_score(Y_test, pred))
