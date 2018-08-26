@@ -1,9 +1,8 @@
 import cli
-import readfiles
+import learnAlgorithms as la
 
 if __name__ == '__main__':
     try:
-        readfiles.openTesting()
-        readfiles.openTraining()
+        la.LDA()
     except KeyboardInterrupt:
         print('\n\nInterrupted execution\n')
