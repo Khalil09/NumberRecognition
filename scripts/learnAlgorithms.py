@@ -1,54 +1,57 @@
 # loading libraries
-from pathlib import Path
-import numpy as np
 import readfiles as rf
+from pathlib import Path
 from sklearn.externals import joblib
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-def knnLearn():
-    train = rf.openTraining()
-    X_train = np.array(train.images)
-    Y_train = np.array(train.labels)
 
-    test = rf.openTesting()
-    X_test = np.array(test.images)
-    Y_test = np.array(test.labels)
+class LearnAlgorithms(object):
 
-    # instantiate learning model (k = 3)
-    knn = KNeighborsClassifier(n_neighbors=3)
+    def __init__(self):
+        train = rf.openTraining()
+        self.X_train = train.images
+        self.Y_train = train.labels
 
-    if  Path('./model.pkl').is_file():
-        knn = joblib.load('model.pkl')
-    else:
-        # fitting the model
-        knn.fit(X_train, Y_train)
-        joblib.dump(knn, 'model.pkl')
+        test = rf.openTesting()
+        self.X_test = test.images
+        self.Y_test = test.labels
 
+    def knnLearn(self, k, train):
+        # instantiate learning model (k = 3)
+        knn = KNeighborsClassifier(n_neighbors=k)
 
+        if  Path('../models/KnnModel.pkl').is_file() and not train:
+            self.log("Loading KNN Model")
+            knn = joblib.load('../models/KnnModel.pkl')
+        else:
+            # fitting the model
+            self.log("Fitting KNN Model")
+            knn.fit(self.X_train, self.Y_train)
+            joblib.dump(knn, '../models/KnnModel.pkl')
+        # predict the response
+        self.log("Predicting KNN Tests")
+        pred = knn.predict(self.X_test)
+        # evaluate accuracy
+        self.log("KNN Accuracy Score: {}".format(accuracy_score(self.Y_test, pred)))
 
-    print(len(Y_test))
-    print(np.shape(Y_test))
-    # predict the response
-    pred = knn.predict(X_test)
+    def ldaLearn(self, train):
+        clf = LinearDiscriminantAnalysis()
 
-    # evaluate accuracy
-    print(accuracy_score(Y_test, pred))
+        if  Path('../models/LdaModel.pkl').is_file() and not train:
+            self.log("Loading LDA Model")
+            clf = joblib.load('../models/LdaModel.pkl')
+        else:
+            # fitting the model
+            self.log("Fitting LDA Model")
+            clf.fit(self.X_train, self.Y_train)
+            joblib.dump(knn, '../models/LdaModel.pkl')
+        # predict the response
+        self.log("Predicting LDA Tests")
+        pred = clf.predict(self.X_test)
+        # evaluate accuracy
+        self.log("KNN Accuracy Score: {}".format(accuracy_score(Y_test, pred)))
 
-def LDA():
-    train = rf.openTraining()
-    X_train = np.array(train.images)
-    Y_train = np.array(train.labels)
-
-    test = rf.openTesting()
-    X_test = np.array(test.images)
-    Y_test = np.array(test.labels)
-
-    clf = LinearDiscriminantAnalysis()
-
-    clf.fit(X_train, Y_train)
-    pred = clf.predict(X_test)
-
-
-    print(accuracy_score(Y_test, pred))
+    def log(self, msg):
+        print('[Learn] {}'.format(msg))

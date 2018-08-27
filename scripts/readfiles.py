@@ -1,6 +1,7 @@
 import random
-from mnist import MNIST
 import collections
+import numpy as np
+from mnist import MNIST
 
 def openTesting() :
     mndata = MNIST('../img/testing')
@@ -9,7 +10,7 @@ def openTesting() :
     del labels[-1]
     Testing = collections.namedtuple('Testing', ['images', 'labels'])
 
-    return Testing(images, labels)
+    return Testing(np.array(images), np.array(labels))
 
 def openTraining() :
     mndata = MNIST('../img/training')
@@ -17,4 +18,4 @@ def openTraining() :
 
     Training = collections.namedtuple('Training', ['images', 'labels'])
 
-    return Training(images, labels)
+    return Training(np.array(images), np.array(labels))
