@@ -27,6 +27,7 @@ class LearnAlgorithms(object):
             knn = joblib.load('../models/KnnModel.pkl')
         else:
             # fitting the model
+            self.log(self.Y_train)
             self.log("Fitting KNN Model")
             knn.fit(self.X_train, self.Y_train)
             joblib.dump(knn, '../models/KnnModel.pkl')
@@ -46,12 +47,12 @@ class LearnAlgorithms(object):
             # fitting the model
             self.log("Fitting LDA Model")
             clf.fit(self.X_train, self.Y_train)
-            joblib.dump(knn, '../models/LdaModel.pkl')
+            joblib.dump(clf, '../models/LdaModel.pkl')
         # predict the response
         self.log("Predicting LDA Tests")
         pred = clf.predict(self.X_test)
         # evaluate accuracy
-        self.log("KNN Accuracy Score: {}".format(accuracy_score(Y_test, pred)))
+        self.log("LDA Accuracy Score: {}".format(accuracy_score(self.Y_test, pred)))
 
     def log(self, msg):
         print('[Learn] {}'.format(msg))
