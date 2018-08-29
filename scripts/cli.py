@@ -3,8 +3,10 @@ from adapter import Adapter
 
 DEFAULT_ALGORITHM = 'lda'
 DEFAULT_K_VALUE = 3
+DEFAULT_PROCESSING = 'None'
 DEFAULT_TRAIN = True
 DEFAULT_TREATED = False
+DEFAULT_PLOT = True
 
 def getAdapter():
     parser = argparse.ArgumentParser(description='A KNN and LDA approach for recognising handwriting numbers using the MNIST Dataset.')
@@ -17,11 +19,16 @@ def getAdapter():
     
     parser.add_argument('--td', dest='td', default=DEFAULT_TREATED, type=bool, help='Enable or disable Treated Data')
 
+    parser.add_argument('--proc', dest='proc', default=DEFAULT_PROCESSING, choices=['binaryLines', 'normalLines', 'None'], type=str, help='Type of image processing before training')
+    
+    parser.add_argument('--cofplot', dest='cofPlot', default=DEFAULT_PLOT, type=bool, help='Enable or Disable plot cofusion matrice')
+
     args = parser.parse_args()
 
     adapter = Adapter(args.algorithm,
                       args.k,
-                      args.td,
-                      args.train)
+                      args.train,
+                      args.proc,
+                      args.cofPlot)
 
     return adapter

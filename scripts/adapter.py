@@ -1,13 +1,18 @@
+from plot import Plot as Plot 
+import readfiles as rf
 import learnAlgorithms as learn
 
 class Adapter(object):
 
-    def __init__(self, algorithm, k, td, train):
+    def __init__(self, algorithm, k, train, ip, cofPlot):
         self.algorithm = algorithm
         self.k = k
-        self.td = td
         self.train = train
-        self.la = learn.LearnAlgorithms(treated_data=td)
+        self.cofPlot = cofPlot
+        self.train = rf.openTraining(ip)
+        self.test = rf.openTesting(ip)
+
+        self.la = learn.LearnAlgorithms(self.train, self.test)
 
     def run(self):
         if self.train:
@@ -18,10 +23,21 @@ class Adapter(object):
         if self.algorithm == 'knn':
             self.log("Learning Algorithm set to KNN")
             self.log("K Value is set to {}".format(self.k))
-            self.la.knnLearn(self.k, self.train)
+            cof_mat = self.la.knnLearn(self.k, self.train)
+
+            if self.cofPlot:
+                Plot.plot_confusion_matrix(cof_mat,
+                                           [0,1,2,3,4,5,6,7,8,9],
+                                           title="Matriz de confusão KNN com K = " + str(self.k))
+
         elif self.algorithm == 'lda':
             self.log("Learning Algorithm set to LDA")
-            self.la.ldaLearn(self.train)
+            cof_mat = self.la.ldaLearn(self.train)
+
+            if self.cofPlot:
+                Plot.plot_confusion_matrix(cof_mat, 
+                                           [0,1,2,3,4,5,6,7,8,9],
+                                           title="Matriz de confusão LDA")
         else:
             self.log("Learning Algorithm set to Both")
             self.log("K Value is set to {}".format(self.k))

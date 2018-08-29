@@ -1,21 +1,18 @@
 # loading libraries
-import readfiles as rf
-import treated_data as td
+from plot import Plot as Plot 
 from pathlib import Path
 from sklearn.externals import joblib
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
+from sklearn.metrics import confusion_matrix
 
 class LearnAlgorithms(object):
 
-    def __init__(self, treated_data = False):
-        train = td.openTreatedTrain() if treated_data else rf.openTraining()
+    def __init__(self, train, test):
         self.X_train = train.images
         self.Y_train = train.labels
 
-        test = td.openTreadtedTest() if treated_data else rf.openTesting()
         self.X_test = test.images
         self.Y_test = test.labels
 
@@ -28,7 +25,6 @@ class LearnAlgorithms(object):
             knn = joblib.load('../models/KnnModel.pkl')
         else:
             # fitting the model
-            self.log(self.Y_train)
             self.log("Fitting KNN Model")
             knn.fit(self.X_train, self.Y_train)
             joblib.dump(knn, '../models/KnnModel.pkl')
@@ -37,6 +33,9 @@ class LearnAlgorithms(object):
         pred = knn.predict(self.X_test)
         # evaluate accuracy
         self.log("KNN Accuracy Score: {}".format(accuracy_score(self.Y_test, pred)))
+
+        cof_mat = confusion_matrix(self.Y_test, pred)
+        return cof_mat
 
     def ldaLearn(self, train):
         clf = LinearDiscriminantAnalysis()
@@ -54,6 +53,9 @@ class LearnAlgorithms(object):
         pred = clf.predict(self.X_test)
         # evaluate accuracy
         self.log("LDA Accuracy Score: {}".format(accuracy_score(self.Y_test, pred)))
+
+        cof_mat = confusion_matrix(self.Y_test, pred)
+        return cof_mat
 
     def log(self, msg):
         print('[Learn] {}'.format(msg))
