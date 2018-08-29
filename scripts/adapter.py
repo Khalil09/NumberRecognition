@@ -2,11 +2,12 @@ import learnAlgorithms as learn
 
 class Adapter(object):
 
-    def __init__(self, algorithm, k, train):
+    def __init__(self, algorithm, k, td, train):
         self.algorithm = algorithm
         self.k = k
+        self.td = td
         self.train = train
-        self.la = learn.LearnAlgorithms()
+        self.la = learn.LearnAlgorithms(treated_data=td)
 
     def run(self):
         if self.train:

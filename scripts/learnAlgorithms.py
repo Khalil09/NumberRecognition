@@ -1,5 +1,6 @@
 # loading libraries
 import readfiles as rf
+import treated_data as td
 from pathlib import Path
 from sklearn.externals import joblib
 from sklearn.metrics import accuracy_score
@@ -9,12 +10,12 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 class LearnAlgorithms(object):
 
-    def __init__(self):
-        train = rf.openTraining()
+    def __init__(self, treated_data = False):
+        train = td.openTreatedTrain() if treated_data else rf.openTraining()
         self.X_train = train.images
         self.Y_train = train.labels
 
-        test = rf.openTesting()
+        test = td.openTreadtedTest() if treated_data else rf.openTesting()
         self.X_test = test.images
         self.Y_test = test.labels
 

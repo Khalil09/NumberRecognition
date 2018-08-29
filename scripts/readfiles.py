@@ -6,8 +6,7 @@ from mnist import MNIST
 def openTesting() :
     mndata = MNIST('../img/testing')
     images, labels = mndata.load_testing()
-
-    del labels[-1]
+    del labels[-1]    
     Testing = collections.namedtuple('Testing', ['images', 'labels'])
 
     return Testing(np.array(images), np.array(labels))
