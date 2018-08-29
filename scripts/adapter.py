@@ -1,12 +1,16 @@
+import readfiles as rf
 import learnAlgorithms as learn
 
 class Adapter(object):
 
-    def __init__(self, algorithm, k, train):
+    def __init__(self, algorithm, k, train, ip):
         self.algorithm = algorithm
         self.k = k
         self.train = train
-        self.la = learn.LearnAlgorithms()
+        self.train = rf.openTraining(ip)
+        self.test = rf.openTesting(ip)
+
+        self.la = learn.LearnAlgorithms(self.train, self.test)
 
     def run(self):
         if self.train:

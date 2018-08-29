@@ -1,5 +1,4 @@
 # loading libraries
-import readfiles as rf
 from pathlib import Path
 from sklearn.externals import joblib
 from sklearn.metrics import accuracy_score
@@ -9,12 +8,9 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 class LearnAlgorithms(object):
 
-    def __init__(self):
-        train = rf.openTraining()
+    def __init__(self, train, test):
         self.X_train = train.images
         self.Y_train = train.labels
-
-        test = rf.openTesting()
         self.X_test = test.images
         self.Y_test = test.labels
 
@@ -27,7 +23,6 @@ class LearnAlgorithms(object):
             knn = joblib.load('../models/KnnModel.pkl')
         else:
             # fitting the model
-            self.log(self.Y_train)
             self.log("Fitting KNN Model")
             knn.fit(self.X_train, self.Y_train)
             joblib.dump(knn, '../models/KnnModel.pkl')
