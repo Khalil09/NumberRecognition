@@ -1,7 +1,7 @@
 class imageProcessing(object):
 
-    @staticmethod
     def normalLines(images):
+        print('[processing] normal lines start')
         newImages = []
         maxValue = 255
         lineSize = 28
@@ -28,10 +28,11 @@ class imageProcessing(object):
                     newVector[vectorPos] = value/sumOfVector
                 vectorPos += 1
             newImages.append(newVector)
+        print('[processing] normal lines end')
         return newImages
 
-    @staticmethod
     def binaryLines(images):
+        print('[processing] binary lines start')
         count = 0
         aux = list()
         final = list() 
@@ -50,4 +51,5 @@ class imageProcessing(object):
             if li == images[-1]:
                 final.append(aux)
 
+        print('[processing] binary lines end')
         return final

@@ -6,7 +6,7 @@ class Plot(object):
 
     @staticmethod
     def plot_confusion_matrix(cm, classes,
-                              normalize=True,
+                              normalize=False,
                               title='Matriz de confusão',
                               cmap=plt.cm.Blues):
 
@@ -21,10 +21,15 @@ class Plot(object):
         plt.xticks(tick_marks, classes)
         plt.yticks(tick_marks, classes)
 
-        fmt = '.0f' if normalize else 'd'
         thresh = cm.max() / 2.
         for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-            plt.text(j, i, format(cm[i, j]*100, fmt),
+            if normalize:
+                string = "{0:.0f}%".format(cm[i, j]*100)
+            else:
+                string = "{}".format(cm[i, j])
+
+
+            plt.text(j, i, string,
                      horizontalalignment="center",
                      color="white" if cm[i, j] > thresh else "black")
 
