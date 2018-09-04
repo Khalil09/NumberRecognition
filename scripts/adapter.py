@@ -26,7 +26,7 @@ class Adapter(object):
             self.log("Learning Algorithm set to KNN")
             self.log("K Value is set to {}".format(self.k))
             cof_mat = self.la.knnLearn(self.k, self.train)
-
+            Plot.plot_normal(self.train.images)
             if self.confPlot != "False":
                 Plot.plot_confusion_matrix(cof_mat,
                                            [0,1,2,3,4,5,6,7,8,9],
