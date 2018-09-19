@@ -3,7 +3,7 @@ A KNN and LDA approach for recognising handwriting numbers using the MNIST Datas
 
 # Setup
 
-Execute the command "pip3 install -r requirements.txt", this will install all libs requiredby python3.
+Execute the command "pip3 install -r requirements.txt", this will install all libs required by python3.
 
 # Execution
 
